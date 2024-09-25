@@ -85,8 +85,7 @@ CODE IMPLEMENTATION
 
 12. Call the created rest endpoint using postman.
 
-POST
-http://localhost:8081/jobs/importCustomers
+curl --location 'http://localhost:8081/jobs/importCustomers'
 
 Then we can see that it took nearly 6 seconds to insert all 1000 rows to database. It added data sequentially(img-3.png).
 By default spring-batch is synchronous. Not Asynchronous.
@@ -119,4 +118,12 @@ have been persisted in the database.
 
 As like this we can use Spring-Batch to get better performance in our application.
 
+
+Special Note
+============
+
+In my local setup tables that spring-batch creates automatically did not get created.
+So I had to execute the sql script in the README directory to create them manually
 !!!!!!!!!!!!!!!!!!END!!!!!!!!!!!!!!!!!!
+
+

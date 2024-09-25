@@ -80,8 +80,6 @@ public class SpringBatchConfig {
         return writer;
     }
 
-    
-    
     /**
      * we want to process the data in a chunk.
      * chunk size is 10 means process 10 records at a time

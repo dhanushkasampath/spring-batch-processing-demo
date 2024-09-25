@@ -6,7 +6,7 @@ spring:
     name: spring-batch-processing-demo
 
   datasource:
-    url: jdbc:mysql://localhost:3306/spring-batch-demo?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/spring_batch_demo?createDatabaseIfNotExist=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,8 +16,9 @@ spring:
       ddl-auto: update
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: true
 
   batch:
-    initialize-schema: ALWAYS
+    initialize-schema: always
     job:
       enabled: false # since I don't want to run the batch processing at the application start up, only when I trigger from the controller
