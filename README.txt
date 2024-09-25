@@ -82,3 +82,41 @@ CODE IMPLEMENTATION
 10. Then we need to pass the created job object into "Job Launcher"
 
 11. Create a RestController as JobController in controller package and write a method in it to trigger the jobs
+
+12. Call the created rest endpoint using postman.
+
+POST
+http://localhost:8081/jobs/importCustomers
+
+Then we can see that it took nearly 6 seconds to insert all 1000 rows to database. It added data sequentially(img-3.png).
+By default spring-batch is synchronous. Not Asynchronous.
+But this is not what we expected. we, too, can insert data sequentially by following default data insertion.
+
+So we need to ask spring-batch to execute data insertion concurrently.
+
+13. Next we need to define a custom taskExecutor in SpringBatchConfig class. Then add that to step bean.
+
+14. Clear the data in the table and re-run the application.
+
+15. When the app starts we can see that there are some tables automatically added by spring boot(refer img-3.png)
+to maintain the state and other information related to batch processing.
+
+16. After introducing taskExecutor property to Step object, we can see that the time has reduced to 3s from 6s, when adding 1000 records to database.
+Also, we can notice that there is no order of insertion data to database table. that means 10 threads have simultaneously added data to it
+
+We don't have control over the threads. We don't know which thread will process which record.
+
+If we want to get that control too, we can use Spring-Batch-Partitioning. In there we can specify thread-1 should process 1st 10 records,... as like that
+
+
+EXAMPLE SCENARIO
+================
+
+Let's say we want to process only records where country is "United States".
+In that case we can customize it at ItemProcessor(refer img-4.png).
+After adding that if condition, restart the app and trigger the request. Then we can see that only records with country "United States"
+have been persisted in the database.
+
+As like this we can use Spring-Batch to get better performance in our application.
+
+!!!!!!!!!!!!!!!!!!END!!!!!!!!!!!!!!!!!!

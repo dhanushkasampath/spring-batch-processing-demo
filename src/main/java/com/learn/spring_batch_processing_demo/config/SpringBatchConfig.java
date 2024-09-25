@@ -18,6 +18,8 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -78,6 +80,8 @@ public class SpringBatchConfig {
         return writer;
     }
 
+    
+    
     /**
      * we want to process the data in a chunk.
      * chunk size is 10 means process 10 records at a time
@@ -92,6 +96,7 @@ public class SpringBatchConfig {
             .reader(reader())
             .processor(processor())
             .writer(writer())
+            .taskExecutor(taskExecutor())
             .build();
     }
 
@@ -101,5 +106,12 @@ public class SpringBatchConfig {
             .start(step1())  // Set the first step of the job
 //             .next(step2()) // if there are some more steps, all of them should pass into this job
             .build();
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor(){
+        SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        asyncTaskExecutor.setConcurrencyLimit(10); // Since I have 1000 records, I want to have 10 threads executes parallel.
+        return asyncTaskExecutor;
     }
 }
