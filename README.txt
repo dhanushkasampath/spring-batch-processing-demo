@@ -80,3 +80,5 @@ CODE IMPLEMENTATION
 9. Then pass that created "Step" object to "Job" Object
 
 10. Then we need to pass the created job object into "Job Launcher"
+
+11. Create a RestController as JobController in controller package and write a method in it to trigger the jobs
