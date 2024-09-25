@@ -53,3 +53,30 @@ A job can have multiple steps as in img-2.png.
 
 This is the complete architecture of spring-batch
 
+CODE IMPLEMENTATION
+===================
+
+1. create packages as config/controller/entity/repository
+
+2. create a new class as Customer to persist data in CSV file
+
+3. Create a new interface as CustomerRepository which extends JpaRepository to perform db related operations
+
+4. Add data source related properties to application.yml file
+
+5. copy the customers.csv file to resource directory
+
+6. Configure the ItemReader/ItemProcessor/ItemWriter using a new class as SpringBatchConfig in config package
+   6.1 To create the "Step", there is "StepBuilderFactory"
+   6.2 To create the "Job", there is "JobBuilderFactory"
+   6.3 In the ItemWriter we need to persist the data in database. For that we need the repository to be injected also
+   6.4 Create the ---ItemReader-- bean inside the configuration class
+   6.5 Create the ---ItemWriter-- bean inside the configuration class
+
+7. Create a new class as "CustomerProcessor" in config package as the ---ItemProcessor---
+
+8. Create an object of "Step" and pass the above created ItemReader, ItemProcessor, ItemWriter to it. (refer img-2.png)
+
+9. Then pass that created "Step" object to "Job" Object
+
+10. Then we need to pass the created job object into "Job Launcher"
